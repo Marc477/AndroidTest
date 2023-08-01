@@ -17,7 +17,7 @@ public class Server : MonoBehaviour
 
         network.CustomMessagingManager.RegisterNamedMessageHandler("action", (ulong client_id, FastBufferReader reader) =>
         {
-            OnReceive("test", client_id, reader);
+            OnReceive(client_id, reader);
         });
 
         Debug.Log("Server Listening...");
@@ -28,7 +28,7 @@ public class Server : MonoBehaviour
         Send(client_id);
     }
 
-    private void OnReceive(string type, ulong client_id, FastBufferReader reader)
+    private void OnReceive(ulong client_id, FastBufferReader reader)
     {
          Send(client_id);
     }
@@ -44,6 +44,7 @@ public class Server : MonoBehaviour
         FastBufferWriter writer = new FastBufferWriter(8, Allocator.Temp, 1024);
         writer.WriteNetworkSerializable(data);
         network.CustomMessagingManager.SendNamedMessage("refresh", client_id, writer);
+        writer.Dispose();
     }
 }
 

@@ -36,7 +36,7 @@ public class Game : MonoBehaviour
 
         network.CustomMessagingManager.RegisterNamedMessageHandler("refresh", (ulong client_id, FastBufferReader reader) =>
         {
-            OnReceive("test", client_id, reader);
+            OnReceive(client_id, reader);
         });
     }
 
@@ -47,9 +47,10 @@ public class Game : MonoBehaviour
 
         FastBufferWriter writer = new FastBufferWriter(0, Allocator.Temp, 1024);
         network.CustomMessagingManager.SendNamedMessage("action", NetworkManager.ServerClientId, writer, NetworkDelivery.Reliable);
+        writer.Dispose();
     }
     
-    private void OnReceive(string type, ulong client_id, FastBufferReader reader)
+    private void OnReceive(ulong client_id, FastBufferReader reader)
     {
         Debug.Log("Receiving...");
         text.text = "Receiving...";
