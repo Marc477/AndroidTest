@@ -41,7 +41,7 @@ public class Server : MonoBehaviour
         data.success = true;
         data.value = "test";
 
-        FastBufferWriter writer = new FastBufferWriter(9, Allocator.Temp, 1024);
+        FastBufferWriter writer = new FastBufferWriter(8, Allocator.Temp, 1024);
         writer.WriteNetworkSerializable(data);
         network.CustomMessagingManager.SendNamedMessage("refresh", client_id, writer);
     }
